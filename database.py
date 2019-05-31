@@ -8,6 +8,8 @@ db = mysql.connector.connect(
     password = db_cfg['password']
 )
 
+
+
 # database init function, only runs once ever
 def init():
     """
