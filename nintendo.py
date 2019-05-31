@@ -1,15 +1,11 @@
-import requests
-import json
-import urllib
-import sys
+import requests, json, urllib
 
-url = "https://u3b6gr4ua3-dsn.algolia.net/1/indexes/*/queries?"
 url_params = {
     'x-algolia-agent': 'Algolia for vanilla JavaScript (lite) 3.22.1;JS Helper 2.20.1',
     'x-algolia-application-id': 'U3B6GR4UA3',
     'x-algolia-api-key': '9a20c93440cf63cf1a7008d75f7438bf'
 }
-url += urllib.parse.urlencode(url_params);
+url = "https://u3b6gr4ua3-dsn.algolia.net/1/indexes/*/queries?" + urllib.parse.urlencode(url_params);
 
 headers = {
     'accept': 'application/json',
