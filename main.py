@@ -1,4 +1,7 @@
-import json, nintendo, metacritic
+import json, nintendo, metacritic, database
+
+# database initialization
+database.init()
 
 page = 0
 count = 0
