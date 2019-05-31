@@ -20,7 +20,7 @@ facets = ['generalFilters', 'platform', 'availability', 'categories', 'filterSho
 facets = json.dumps(facets)
 
 def get_games(page):
-    "testing docs"
+    "Returns a list of Nintendo Switch games on a specified page number."
 
     params = {
         'query': '',
