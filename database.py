@@ -8,7 +8,36 @@ db = mysql.connector.connect(
     password = db_cfg['password']
 )
 
+db.autocommit = True # automatically commit changes to db (ex: insert queries)
+cursor = db.cursor() # object used to execute commands
+
+# uploads game information to database
 def insert_game(game):
+    """Uploads information about a game to our database."""
+
+    # make sure the game actually has an id.
+    if not 'id' in game:
+        return
+
+    # skip the game, if it's already uploaded (and the data is up-to-date...)
+    cursor.execute("SELECT * FROM games WHERE id LIKE '{}'".format(game['id']))
+    row = cursor.fetchone()
+    if row and row['modified'] == game['lastModified']:
+        return
+
+    # fix some values that might not exist
+    patchers = ('msrp', 'salePrice', 'gallery')
+    for patcher in patchers:
+        if not patcher in game:
+            game[patcher] = None
+
+    # handle json arrays (serialize them into strings, store as text)
+    json_vars = ('characters', 'categories', 'publishers', 'developers', 'availability')
+    for var in json_vars:
+        if var in game:
+            game[var] = json.dumps(game[var])
+        else:
+            game[var] = "[]"
 
     # values to upload via insert query
     params = (
@@ -21,15 +50,23 @@ def insert_game(game):
         game['salePrice'],                  # sale price
         game['boxArt'],                     # art
         game['gallery'],                    # gallery
-        json.dumps(game['characters']),     # characters
-        json.dumps(game['categories']),     # categories
-        json.dumps(game['publishers']),     # publishers
-        json.dumps(game['developers']),     # developers
-        json.dumps(game['availability']),   #availability
-        game['lastModified']                # modified
+        game['characters'],                 # characters
+        game['categories'],                 # categories
+        game['publishers'],                 # publishers
+        game['developers'],                 # developers
+        game['availability'],               # availability
+        game['lastModified'],               # modified
         )
 
-
+    # insert game data into 'games' table
+    cursor.execute("""INSERT INTO games (
+        id, slug, locale,
+        title, description, price,
+        sale_price, art, gallery,
+        characters, categories, publishers,
+        developers, availability, modified) VALUES (
+        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+        )""", params)
 
 # database init function, only runs once ever
 def init():
@@ -39,9 +76,9 @@ def init():
     """
 
     # if the database already exists, return
-    cursor = db.cursor()
     cursor.execute("SHOW DATABASES LIKE 'switch_game_parser'")
     if cursor.fetchone():
+        cursor.execute("USE switch_game_parser")
         return
 
     # create database on mysql server
@@ -61,13 +98,13 @@ def init():
         	`price` FLOAT NULL DEFAULT NULL,
         	`sale_price` FLOAT NULL DEFAULT NULL,
         	`art` TEXT NOT NULL,
-        	`gallery` VARCHAR(32) NOT NULL,
+        	`gallery` TEXT NULL,
         	`characters` TEXT NOT NULL,
         	`categories` TEXT NOT NULL,
         	`publishers` TEXT NOT NULL,
         	`developers` TEXT NOT NULL,
         	`availability` TEXT NOT NULL,
-        	`modified` BIGINT(20) NOT NULL,
+            `modified` BIGINT(20) NOT NULL,
         	PRIMARY KEY (`id`)
         )
         COLLATE = 'utf8mb4_general_ci'
