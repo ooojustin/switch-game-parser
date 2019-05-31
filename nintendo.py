@@ -1,29 +1,36 @@
 import requests, json, urllib
 
-url_params = {
+URL_PARAMS = {
     'x-algolia-agent': 'Algolia for vanilla JavaScript (lite) 3.22.1;JS Helper 2.20.1',
     'x-algolia-application-id': 'U3B6GR4UA3',
     'x-algolia-api-key': '9a20c93440cf63cf1a7008d75f7438bf'
 }
-url = "https://u3b6gr4ua3-dsn.algolia.net/1/indexes/*/queries?" + urllib.parse.urlencode(url_params);
+URL = "https://u3b6gr4ua3-dsn.algolia.net/1/indexes/*/queries?" + urllib.parse.urlencode(URL_PARAMS);
 
-headers = {
+HEADERS = {
+    'user-agent': 'switch-game-parser',
     'accept': 'application/json',
     'content-type': 'application/x-www-form-urlencoded'
 }
 
-facets = ['generalFilters', 'platform', 'availability', 'categories', 'filterShops', 'virtualConsole', 'characters', 'priceRange', 'esrb', 'filterPlayers']
-facets = json.dumps(facets)
+FACETS = json.dumps([
+    'generalFilters', 'platform', 'availability',
+    'categories', 'filterShops', 'virtualConsole',
+    'characters', 'priceRange',
+    'esrb', 'filterPlayers'])
 
 def get_games(page):
-    "Returns a list of Nintendo Switch games on a specified page number."
+    """
+    Returns a list of Nintendo Switch games on a specified page number.
+    The list contains objects deserialized from the following json format: https://pastebin.com/2VKV9vpk
+    """
 
     params = {
         'query': '',
         'hitsPerPage': 50,
         'maxValuesPerFacet': 30,
         'page': page,
-        'facets': facets,
+        'facets': FACETS,
         'tagFilters': ''
     }
 
@@ -36,7 +43,7 @@ def get_games(page):
         ]
     }
 
-    response = requests.post(url, json.dumps(formData), headers = headers)
+    response = requests.post(URL, json.dumps(formData), headers = HEADERS)
     if response.status_code != 200 :
         sys.exit()
 
