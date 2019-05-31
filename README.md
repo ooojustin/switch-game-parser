@@ -1,6 +1,9 @@
 # switch-game-parser
 Parse Nintendo Switch games from the eShop programmatically.
 
+## Setup
+* Rename 'database.cfg.template' to 'database.cfg' and enter host/user/password to MySQL server in the provided json format. 
+
 ## Notice
 The code for this project likely sucks, because I am not a Python developer. I'm working on this project for self-teaching purposes and I have no idea what it's meant to accomplish.
 
