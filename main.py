@@ -17,34 +17,46 @@ headers = {
 }
 
 facets = ['generalFilters', 'platform', 'availability', 'categories', 'filterShops', 'virtualConsole', 'characters', 'priceRange', 'esrb', 'filterPlayers'];
-params = {
-    'query': '',
-    'hitsPerPage': 42,
-    'maxValuesPerFacet': 30,
-    'page': 1,
-    'facets': json.dumps(facets),
-    'tagFilters': ''
-}
+facets = json.dumps(facets);
 
-formData = {
-    'requests': [
-        {
-            'indexName': 'noa_aem_game_en_us',
-            'params': urllib.parse.urlencode(params)
-        }
-    ]
-}
+page = 0;
+count = 0;
 
-response = requests.post(url, json.dumps(formData), headers = headers)
-if response.status_code != 200 :
-    sys.exit()
+while True:
 
-data = json.loads(response.text)
-games = data['results'][0]['hits']
+    params = {
+        'query': '',
+        'hitsPerPage': 50,
+        'maxValuesPerFacet': 30,
+        'page': page,
+        'facets': facets,
+        'tagFilters': ''
+    }
 
-print(len(games))
-for game in games:
-    print(game['title'])
+    formData = {
+        'requests': [
+            {
+                'indexName': 'noa_aem_game_en_us',
+                'params': urllib.parse.urlencode(params)
+            }
+        ]
+    }
+
+    response = requests.post(url, json.dumps(formData), headers = headers)
+    if response.status_code != 200 :
+        sys.exit()
+
+    data = json.loads(response.text)
+    games = data['results'][0]['hits']
+
+    if len(games) == 0:
+        break;
+
+    for game in games:
+        count += 1;
+        print(str(count) + ": " + game['title'])
+
+    page += 1
 
 # template:
 # https://www.metacritic.com/search/game/moonlighter/results?plats[268409]=1&search_type=advanced
