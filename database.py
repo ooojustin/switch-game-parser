@@ -8,6 +8,27 @@ db = mysql.connector.connect(
     password = db_cfg['password']
 )
 
+def insert_game(game):
+
+    # values to upload via insert query
+    params = (
+        game['id'],                         # id
+        game['slug'],                       # slug
+        game['locale'],                     # locale
+        game['title'],                      # title
+        game['description'],                # description
+        game['msrp'],                       # price
+        game['salePrice'],                  # sale price
+        game['boxArt'],                     # art
+        game['gallery'],                    # gallery
+        json.dumps(game['characters']),     # characters
+        json.dumps(game['categories']),     # categories
+        json.dumps(game['publishers']),     # publishers
+        json.dumps(game['developers']),     # developers
+        json.dumps(game['availability']),   #availability
+        game['lastModified']                # modified
+        )
+
 
 
 # database init function, only runs once ever
