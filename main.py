@@ -12,8 +12,8 @@ while True:
 
     for game in games:
         count += 1;
-        rating = metacritic.get_metacritic_score(game)
-        print(str(count) + ": " + game['title'] + " - metacritic: " + str(rating))
+        # rating = metacritic.get_metacritic_score(game)
+        print(str(count) + ": " + game['title'])
 
     page += 1
 
