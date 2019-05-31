@@ -1,4 +1,4 @@
-import nintendo
+import json, nintendo, metacritic
 
 page = 0
 count = 0
@@ -12,7 +12,8 @@ while True:
 
     for game in games:
         count += 1;
-        print(str(count) + ": " + game['title'])
+        rating = metacritic.get_metacritic_score(game)
+        print(str(count) + ": " + game['title'] + " - metacritic: " + str(rating))
 
     page += 1
 
