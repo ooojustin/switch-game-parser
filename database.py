@@ -30,21 +30,23 @@ def init():
     # create 'games' table
     cursor.execute("""
         CREATE TABLE `games` (
-          `id` varchar(32) NOT NULL,
-          `slug` text NOT NULL,
-          `locale` text NOT NULL,
-          `title` text NOT NULL,
-          `description` text NOT NULL,
-          `art` text NOT NULL,
-          `gallery` varchar(32) NOT NULL,
-          `characters` text NOT NULL,
-          `categories` text NOT NULL,
-          `publishers` text NOT NULL,
-          `developers` text NOT NULL,
-          `availability` text NOT NULL,
-          `modified` bigint(20) NOT NULL
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+        	`id` VARCHAR(32) NOT NULL,
+        	`slug` TEXT NOT NULL,
+        	`locale` TEXT NOT NULL,
+        	`title` TEXT NOT NULL,
+        	`description` TEXT NOT NULL,
+        	`price` FLOAT NULL DEFAULT NULL,
+        	`sale_price` FLOAT NULL DEFAULT NULL,
+        	`art` TEXT NOT NULL,
+        	`gallery` VARCHAR(32) NOT NULL,
+        	`characters` TEXT NOT NULL,
+        	`categories` TEXT NOT NULL,
+        	`publishers` TEXT NOT NULL,
+        	`developers` TEXT NOT NULL,
+        	`availability` TEXT NOT NULL,
+        	`modified` BIGINT(20) NOT NULL,
+        	PRIMARY KEY (`id`)
+        )
+        COLLATE = 'utf8mb4_general_ci'
+        ENGINE = InnoDB;
     """)
-
-    # set the 'id' column to the primary
-    cursor.execute("ALTER TABLE `games` ADD PRIMARY KEY (`id`);")
