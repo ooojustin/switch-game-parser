@@ -17,6 +17,7 @@ while True:
         count += 1;
         # rating = metacritic.get_metacritic_score(game)
         print(str(count) + ": " + game['title'])
+        database.insert_game(game)
 
     page += 1
 
