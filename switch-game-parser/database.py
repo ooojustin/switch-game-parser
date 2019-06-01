@@ -1,4 +1,4 @@
-import mysql.connector, json, os
+import mysql.connector, json, os, csv
 
 # initialize the database connection
 if os.path.isfile('database.cfg'):
@@ -99,6 +99,17 @@ def insert_game(game):
         developers, availability, modified) VALUES (
         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
         )""", params)
+
+def export_games(path):
+    """
+    Exports games from database into a csv formatted file.
+
+    Prameters:
+        path (string): A path to the output file.
+    """
+    with open(path, "w", encoding = "utf8") as file:
+        writer = csv.writer(file)
+        writer.writerows(get_games())
 
 def init():
     """
