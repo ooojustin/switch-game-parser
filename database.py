@@ -41,23 +41,15 @@ def insert_game(game):
             game[var] = "[]"
 
     # values to upload via insert query
-    params = (
-        game['id'],                         # id
-        game['slug'],                       # slug
-        game['locale'],                     # locale
-        game['title'],                      # title
-        game['description'],                # description
-        game['msrp'],                       # price
-        game['salePrice'],                  # sale price
-        game['boxArt'],                     # art
-        game['gallery'],                    # gallery
-        game['characters'],                 # characters
-        game['categories'],                 # categories
-        game['publishers'],                 # publishers
-        game['developers'],                 # developers
-        game['availability'],               # availability
-        game['lastModified'],               # modified
-        )
+    params = []
+    param_names = (
+        'id', 'slug', 'locale',
+        'title', 'description', 'msrp',
+        'salePrice', 'boxArt', 'gallery',
+        'characters', 'categories', 'publishers',
+        'developers', 'availability', 'lastModified')
+    for param_name in param_names:
+        params.append(game[param_name])
 
     # insert game data into 'games' table
     cursor.execute("""INSERT INTO games (
