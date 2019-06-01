@@ -12,16 +12,34 @@ db.autocommit = True # automatically commit changes to db (ex: insert queries)
 cursor = db.cursor() # object used to execute commands
 
 def get_game(id):
-    """Gets a games existing data from our database."""
+    """
+    Gets a games existing data from our database.
+
+    Parameters:
+        id (string): The id of the game in the database.
+
+    Returns:
+        tuple: A tuple representing the row of the game in the database.
+    """
     cursor.execute("SELECT * FROM games WHERE id LIKE '{}'".format(id))
     return cursor.fetchone()
 
 def delete_game(id):
-    """Deletes a game from our database."""
+    """
+    Deletes a game from our database.
+
+    Parameters:
+        id (string): The id of the game in the database.
+    """
     cursor.execute("DELETE FROM games WHERE id='{}'".format(game['id']))
 
 def insert_game(game):
-    """Uploads information about a game to our database."""
+    """
+    Uploads information about a game to our database.
+
+    Parameters:
+        game (dict): A dict containing the games information, deserialized from algolia response.
+    """
 
     # make sure the game actually has an id.
     if not 'id' in game:

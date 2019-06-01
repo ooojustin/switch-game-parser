@@ -21,8 +21,14 @@ FACETS = json.dumps([
 
 def get_games(page):
     """
-    Returns a list of Nintendo Switch games on a specified page number.
+    Gets a list of Nintendo Switch games on a specified page number.
     The list contains objects deserialized from the following json format: https://pastebin.com/2VKV9vpk
+
+    Parameters:
+        page (int): The page number to search for games on.
+
+    Returns:
+        list: A list of game dicts.
     """
 
     params = {

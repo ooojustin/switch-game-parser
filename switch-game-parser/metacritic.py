@@ -12,7 +12,15 @@ HEADERS = {
 }
 
 def get_slug(game):
-    """Attempts to determine a games slug on metacritic from it's default Nintendo eShop slug."""
+    """
+    Derives a games slug on metacritic from it's default Nintendo eShop slug.
+
+    Parameters:
+        game (dict): A dict containing the games information, deserialized from algolia response.
+
+    Returns:
+        string: The games predicted slug on metacritic.
+    """
 
     s = '-switch' # if the slug ends with this, remove it
     slug = game['slug']
@@ -23,7 +31,15 @@ def get_slug(game):
     return slug
 
 def get_metacritic_score(game):
-    """Attempts to retreieve a games metacritic rating. Returns 'False' if failed, for any reason."""
+    """
+    Attempts to retreieve a games metacritic rating. Returns 'False' if failed, for any reason.
+
+    Parameters:
+        game (object): An object containing the games information, deserialized from algolia response.
+
+    Returns:
+        int: The games rating on metacritic. (Note: if failed, returns False)
+    """
 
     # determine metacritic page url
     slug = get_slug(game)
@@ -55,4 +71,4 @@ def get_metacritic_score(game):
         return False
 
     # return the metacritic score
-    return data['aggregateRating']['ratingValue']
+    return int(data['aggregateRating']['ratingValue'])
