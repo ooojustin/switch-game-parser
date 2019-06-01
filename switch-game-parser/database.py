@@ -33,7 +33,7 @@ def delete_game(id):
     Parameters:
         id (string): The id of the game in the database.
     """
-    cursor.execute("DELETE FROM games WHERE id='{}'".format(game['id']))
+    cursor.execute("DELETE FROM games WHERE id='{}'".format(id))
 
 def insert_game(game):
     """
