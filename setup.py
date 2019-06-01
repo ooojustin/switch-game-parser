@@ -9,8 +9,7 @@ setup(name='switch-game-parser',
       license='MIT',
       packages=['switch-game-parser'],
       install_requires=[
-        'sphinx'
-        'sphinx_bootstrap_theme',
+        'sphinx',
         'requests',
         'mysql_connector'
         ]

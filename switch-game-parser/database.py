@@ -23,7 +23,7 @@ if os.path.isfile('database.cfg'):
 
 def get_games():
     """
-    Gets a list of all existing games on our DATABASE
+    Gets a list of all existing games on our database.
 
     Returns:
         list: List of tuples. Each tuple is one game row.
