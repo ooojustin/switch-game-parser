@@ -11,7 +11,6 @@ db = mysql.connector.connect(
 db.autocommit = True # automatically commit changes to db (ex: insert queries)
 cursor = db.cursor() # object used to execute commands
 
-# uploads game information to database
 def get_game(id):
     """Gets a games existing data from our database."""
     cursor.execute("SELECT * FROM games WHERE id LIKE '{}'".format(id))
@@ -30,11 +29,10 @@ def insert_game(game):
 
     # skip the game, if it's already uploaded (and the data is up-to-date...)
     # note: 14 = index of 'modified' column
-    cursor.execute("SELECT * FROM games WHERE id LIKE '{}'".format(game['id']))
-    row = cursor.fetchone()
+    row = get_game(game['id'])
     if row:
         if game['lastModified'] > row[14]:
-            cursor.execute("DELETE FROM games WHERE id='{}'".format(game['id']))
+            delete_game(game['id'])
         else: return
 
     # fix some values that might not exist
@@ -72,7 +70,6 @@ def insert_game(game):
         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
         )""", params)
 
-# database init function, only runs once ever
 def init():
     """
     Creates the database/all needed tables used in the program.
