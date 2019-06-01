@@ -13,6 +13,14 @@ if os.path.isfile('database.cfg'):
     db.autocommit = True # automatically commit changes to db (ex: insert queries)
     cursor = db.cursor() # object used to execute commands
 
+    # column names in 'games' table
+    GAMES_TABLE_COLUMNS = (
+        'id', 'slug', 'locale',
+        'title', 'description', 'price',
+        'sale_price', 'art', 'gallery',
+        'characters', 'categories', 'publishers',
+        'developers', 'availability', 'modified')
+
 def get_games():
     """
     Gets a list of all existing games on our DATABASE
@@ -79,7 +87,7 @@ def insert_game(game):
         else:
             game[var] = "[]"
 
-    # values to upload via insert query
+    # values to upload via insert query (from 'game' tuple returned by algolia)
     params = []
     param_names = (
         'id', 'slug', 'locale',
@@ -91,14 +99,10 @@ def insert_game(game):
         params.append(game[param_name])
 
     # insert game data into 'games' table
-    cursor.execute("""INSERT INTO games (
-        id, slug, locale,
-        title, description, price,
-        sale_price, art, gallery,
-        characters, categories, publishers,
-        developers, availability, modified) VALUES (
-        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
-        )""", params)
+    cursor.execute("INSERT INTO games ({}) VALUES ({})".format(
+        ",".join(GAMES_TABLE_COLUMNS),
+        ",".join(["%s"] * len(GAMES_TABLE_COLUMNS))
+    ), params)
 
 def export_games(path):
     """
@@ -109,6 +113,7 @@ def export_games(path):
     """
     with open(path, "w", encoding = "utf8") as file:
         writer = csv.writer(file)
+        writer.writerow(GAMES_TABLE_COLUMNS)
         writer.writerows(get_games())
 
 def init():
