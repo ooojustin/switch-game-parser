@@ -1,15 +1,17 @@
-import mysql.connector, json
+import mysql.connector, json, os
 
 # initialize the database connection
-db_cfg = json.loads(open('database.cfg', 'r').read())
-db = mysql.connector.connect(
-    host = db_cfg['host'],
-    user = db_cfg['username'],
-    password = db_cfg['password']
-)
+if os.path.isfile('database.cfg'):
 
-db.autocommit = True # automatically commit changes to db (ex: insert queries)
-cursor = db.cursor() # object used to execute commands
+    db_cfg = json.loads(open('database.cfg', 'r').read())
+    db = mysql.connector.connect(
+        host = db_cfg['host'],
+        user = db_cfg['username'],
+        password = db_cfg['password']
+    )
+
+    db.autocommit = True # automatically commit changes to db (ex: insert queries)
+    cursor = db.cursor() # object used to execute commands
 
 def get_game(id):
     """
