@@ -69,7 +69,8 @@ def insert_game(game):
     # note: 14 = index of 'modified' column
     row = get_game(game['id'])
     if row:
-        if game['lastModified'] > row[14]:
+        modified_index = GAMES_TABLE_COLUMNS.index('modified')
+        if game['lastModified'] > row[modified_index]:
             delete_game(game['id'])
         else: return
 
