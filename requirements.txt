@@ -1,0 +1,3 @@
+sphinx
+requests
+mysql_connector
