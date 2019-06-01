@@ -23,8 +23,10 @@ def insert_game(game):
     # note: 14 = index of 'modified' column
     cursor.execute("SELECT * FROM games WHERE id LIKE '{}'".format(game['id']))
     row = cursor.fetchone()
-    if row and row[14] == game['lastModified']:
-        return
+    if row:
+        if game['lastModified'] > row[14]:
+            cursor.execute("DELETE FROM games WHERE id='{}'".format(game['id']))
+        else: return
 
     # fix some values that might not exist
     patchers = ('msrp', 'salePrice', 'gallery')
