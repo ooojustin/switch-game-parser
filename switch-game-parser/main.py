@@ -8,6 +8,7 @@ if __name__ == "__main__":
     page = 0
     count = 0
 
+    # breaks when there are no more games left
     while True:
 
         games = nintendo.get_games(page)
@@ -20,5 +21,5 @@ if __name__ == "__main__":
             # rating = metacritic.get_metacritic_score(game)
             print(str(count) + ": " + game['title'])
             database.insert_game(game)
-            
+
         page += 1

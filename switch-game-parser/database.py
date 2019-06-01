@@ -13,6 +13,16 @@ if os.path.isfile('database.cfg'):
     db.autocommit = True # automatically commit changes to db (ex: insert queries)
     cursor = db.cursor() # object used to execute commands
 
+def get_games():
+    """
+    Gets a list of all existing games on our DATABASE
+
+    Returns:
+        list: List of tuples. Each tuple is one game row.
+    """
+    cursor.execute("SELECT * FROM games")
+    return cursor.fetchall()
+
 def get_game(id):
     """
     Gets a games existing data from our database.
