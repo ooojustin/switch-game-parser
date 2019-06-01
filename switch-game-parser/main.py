@@ -1,25 +1,24 @@
 import json, nintendo, metacritic, database
 
-# database initialization
-database.init()
+if __name__ == "__main__":
 
-page = 0
-count = 0
+    # database initialization
+    database.init()
 
-while True:
+    page = 0
+    count = 0
 
-    games = nintendo.get_games(page)
+    while True:
 
-    if len(games) == 0:
-        break;
+        games = nintendo.get_games(page)
 
-    for game in games:
-        count += 1;
-        # rating = metacritic.get_metacritic_score(game)
-        print(str(count) + ": " + game['title'])
-        database.insert_game(game)
+        if len(games) == 0:
+            break;
 
-    page += 1
-
-# template:
-# https://www.metacritic.com/search/game/moonlighter/results?plats[268409]=1&search_type=advanced
+        for game in games:
+            count += 1;
+            # rating = metacritic.get_metacritic_score(game)
+            print(str(count) + ": " + game['title'])
+            database.insert_game(game)
+            
+        page += 1
