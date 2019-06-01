@@ -6,7 +6,12 @@ setup(name='switch-game-parser',
       author='Justin Garofolo',
       author_email='justin@garofolo.net',
       url='https://github.com/ooojustin/switch-game-parser',
+      license='MIT',
       packages=['switch-game-parser'],
-      install_requires=['sphinx', 'requests', 'mysql_connector'],
-      license='MIT'
+      install_requires=[
+        'sphinx'
+        'sphinx_bootstrap_theme',
+        'requests',
+        'mysql_connector'
+        ]
      )
