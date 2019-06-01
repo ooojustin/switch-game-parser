@@ -108,7 +108,7 @@ def export_games(path):
     """
     Exports games from database into a csv formatted file.
 
-    Prameters:
+    Parameters:
         path (string): A path to the output file.
     """
     with open(path, "w", encoding = "utf8") as file:

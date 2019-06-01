@@ -37,7 +37,8 @@ def get_games(page):
         'maxValuesPerFacet': 30,
         'page': page,
         'facets': FACETS,
-        'tagFilters': ''
+        'tagFilters': '',
+        'facetFilters': ("platform:Nintendo Switch")
     }
 
     formData = {
