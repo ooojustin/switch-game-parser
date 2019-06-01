@@ -114,4 +114,4 @@ dmypy.json
 .pyre/
 
 # Database configuration file
-database.cfg
+/switch-game-parser/database.cfg
