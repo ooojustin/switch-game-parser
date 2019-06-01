@@ -12,6 +12,15 @@ db.autocommit = True # automatically commit changes to db (ex: insert queries)
 cursor = db.cursor() # object used to execute commands
 
 # uploads game information to database
+def get_game(id):
+    """Gets a games existing data from our database."""
+    cursor.execute("SELECT * FROM games WHERE id LIKE '{}'".format(id))
+    return cursor.fetchone()
+
+def delete_game(id):
+    """Deletes a game from our database."""
+    cursor.execute("DELETE FROM games WHERE id='{}'".format(game['id']))
+
 def insert_game(game):
     """Uploads information about a game to our database."""
 
